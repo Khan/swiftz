@@ -21,7 +21,7 @@ public func safeIndex<T>(array: Array<T>)(i: Int) -> T? {
 
 ///Appends an array onto the end of the receiving array.
 ///Does not mutate the receiving array.
-public func concat<T>(#lhs: [T])(#rhs: [T]) -> [T] {
+public func concat<T>(#lhs: [T])(rhs: [T]) -> [T] {
   if rhs.isEmpty {
     return lhs
   }

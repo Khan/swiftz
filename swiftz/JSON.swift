@@ -20,12 +20,16 @@ public enum JSONValue: Printable {
   public func values() -> NSObject {
     switch self {
     case let JSONArray(xs): return NSArray(array: xs.map { $0.values() })
-    case let JSONObject(xs): return NSDictionary(dictionary: map(dict: xs)({ (k: String, v: JSONValue) -> (String, AnyObject) in
-      return (NSString(string: k), v.values())
-      }))
-    case let JSONNumber(n): return NSNumber(double: n)
-    case let JSONString(s): return NSString(string: s)
-    case let JSONBool(b): return NSNumber(bool: b)
+    case let JSONObject(xs):
+		let f: ((String, JSONValue) -> (NSString, AnyObject)) -> [NSString: AnyObject] = map(dict: xs)
+		let dict: [NSString: AnyObject] = f { (k: String, v: JSONValue) -> (NSString, AnyObject) in
+			return (NSString(string: k), v.values())
+		}
+
+		return NSDictionary(dictionary: dict)
+	case let JSONNumber(n): return NSNumber(double: n)
+	case let JSONString(s): return NSString(string: s)
+	case let JSONBool(b): return NSNumber(bool: b)
     case let JSONNull(): return NSNull()
     }
   }
@@ -34,10 +38,10 @@ public enum JSONValue: Printable {
   // we know this is safe because of the NSJSONSerialization docs
   public static func make(a: NSObject) -> JSONValue {
     switch a {
-    case let xs as NSArray: return .JSONArray(xs.mapToArray { self.make($0 as NSObject) })
+    case let xs as NSArray: return .JSONArray(xs.mapToArray { self.make($0 as! NSObject) })
     case let xs as NSDictionary:
       return JSONValue.JSONObject(xs.mapValuesToDictionary { (k: AnyObject, v: AnyObject) in
-        return (String(k as NSString), self.make(v as NSObject))
+        return (String(k as! NSString), self.make(v as! NSObject))
         })
     case let xs as NSNumber:
       // TODO: number or bool?...
@@ -63,7 +67,7 @@ public enum JSONValue: Printable {
     let r: AnyObject? = NSJSONSerialization.JSONObjectWithData(s, options: opts, error: &e)
 
     if let json: AnyObject = r {
-      return make(json as NSObject)
+      return make(json as! NSObject)
     } else {
       return .None
     }
@@ -128,12 +132,12 @@ public func !=(lhs: JSONValue, rhs: JSONValue) -> Bool {
 
 public protocol JSONDecode {
   typealias J
-  class func fromJSON(x: JSONValue) -> J?
+  static func fromJSON(x: JSONValue) -> J?
 }
 
 public protocol JSONEncode {
   typealias J
-  class func toJSON(x: J) -> JSONValue
+  static func toJSON(x: J) -> JSONValue
 }
 
 public protocol JSON: JSONDecode, JSONEncode {
