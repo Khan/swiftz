@@ -19,7 +19,7 @@ public class Sum<A, N: Num where N.N == A>: Monoid {
   let n: () -> N // work around for rdar://17109323
 
   // explicit instance passing
-  public init(i: @autoclosure () -> N) {
+  public init(@autoclosure i: () -> N) {
     n = i
   }
 
@@ -32,7 +32,7 @@ public class Sum<A, N: Num where N.N == A>: Monoid {
 public class Product<A, N: Num where N.N == A>: Monoid {
   public typealias M = A
   let n: () -> N
-  public init(i: @autoclosure () -> N) {
+  public init(@autoclosure i: () -> N) {
     n = i
   }
   public func mzero() -> M { return n().succ(n().zero()) }

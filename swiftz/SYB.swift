@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol Dataable {
-  class func typeRep() -> Any.Type
-  class func fromRep(r: Data) -> Self?
+  static func typeRep() -> Any.Type
+  static func fromRep(r: Data) -> Self?
   func toRep() -> Data
 }
 

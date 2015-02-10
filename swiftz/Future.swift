@@ -29,7 +29,7 @@ public class Future<A> {
     exec.submit(self, work: a)
   }
 
-  public init(exec: ExecutionContext, _ a: @autoclosure () -> A) {
+  public init(exec: ExecutionContext, @autoclosure _ a: () -> A) {
     dispatch_suspend(self.resultQueue)
     execCtx = exec
     exec.submit(self, work: a)
