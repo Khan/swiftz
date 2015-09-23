@@ -16,7 +16,7 @@ public enum JSONValue : CustomStringConvertible {
 	case JSONBool(Bool)
 	case JSONNull()
 
-	private func values() -> NSObject {
+	public func values() -> NSObject {
 		switch self {
 		case let .JSONArray(xs):
 			return NSArray(array: xs.map { $0.values() })
@@ -36,7 +36,7 @@ public enum JSONValue : CustomStringConvertible {
 	}
 
 	// we know this is safe because of the NSJSONSerialization docs
-	private static func make(a : NSObject) -> JSONValue {
+	public static func make(a : NSObject) -> JSONValue {
 		switch a {
 		case let xs as NSArray:
 			return .JSONArray((xs as [AnyObject]).map { self.make($0 as! NSObject) })
