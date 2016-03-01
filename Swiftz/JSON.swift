@@ -51,7 +51,7 @@ public enum JSONValue : CustomStringConvertible {
 		case _ as NSNull:
 			return .JSONNull()
 		default:
-			return error("Non-exhaustive pattern match performed.");
+			fatalError("Non-exhaustive pattern match performed.");
 		}
 	}
 
@@ -128,72 +128,6 @@ public func ==(lhs : JSONValue, rhs : JSONValue) -> Bool {
 
 public func !=(lhs : JSONValue, rhs : JSONValue) -> Bool {
 	return !(lhs == rhs)
-}
-
-// someday someone will ask for this
-//// Comparable
-//func <=(lhs: JSValue, rhs: JSValue) -> Bool {
-//  return false;
-//}
-//
-//func >(lhs: JSValue, rhs: JSValue) -> Bool {
-//  return !(lhs <= rhs)
-//}
-//
-//func >=(lhs: JSValue, rhs: JSValue) -> Bool {
-//  return (lhs > rhs || lhs == rhs)
-//}
-//
-//func <(lhs: JSValue, rhs: JSValue) -> Bool {
-//  return !(lhs >= rhs)
-//}
-
-public func <? <A : JSONDecodable where A == A.J>(lhs : JSONValue, rhs : JSONKeypath) -> A? {
-	switch lhs {
-	case let .JSONObject(d):
-		return resolveKeypath(d, rhs: rhs).flatMap(A.fromJSON)
-	default:
-		return .None
-	}
-}
-
-public func <? <A : JSONDecodable where A == A.J>(lhs : JSONValue, rhs : JSONKeypath) -> [A]? {
-	switch lhs {
-	case let .JSONObject(d):
-		return resolveKeypath(d, rhs: rhs).flatMap(JArrayFrom<A, A>.fromJSON)
-	default:
-		return .None
-	}
-}
-
-public func <? <A : JSONDecodable where A == A.J>(lhs : JSONValue, rhs : JSONKeypath) -> [String:A]? {
-	switch lhs {
-	case let .JSONObject(d):
-		return resolveKeypath(d, rhs: rhs).flatMap(JDictionaryFrom<A, A>.fromJSON)
-	default:
-		return .None
-	}
-}
-
-public func <! <A : JSONDecodable where A == A.J>(lhs : JSONValue, rhs : JSONKeypath) -> A {
-	if let r : A = (lhs <? rhs) {
-		return r
-	}
-	return error("Cannot find value at keypath \(rhs) in JSON object \(rhs).")
-}
-
-public func <! <A : JSONDecodable where A == A.J>(lhs : JSONValue, rhs : JSONKeypath) -> [A] {
-	if let r : [A] = (lhs <? rhs) {
-		return r
-	}
-	return error("Cannot find array at keypath \(rhs) in JSON object \(rhs).")
-}
-
-public func <! <A : JSONDecodable where A == A.J>(lhs : JSONValue, rhs : JSONKeypath) -> [String:A] {
-	if let r : [String:A] = (lhs <? rhs) {
-		return r
-	}
-	return error("Cannot find object at keypath \(rhs) in JSON object \(rhs).")
 }
 
 // traits
@@ -405,28 +339,3 @@ public struct JDictionary<A, B : JSON where B.J == A> : JSON {
 		})))
 	}
 }
-
-
-/// MARK: Implementation Details
-
-private func resolveKeypath(lhs : Dictionary<String, JSONValue>, rhs : JSONKeypath) -> JSONValue? {
-	if rhs.path.isEmpty {
-		return .None
-	}
-
-	switch rhs.path.match {
-	case .Nil:
-		return .None
-	case let .Cons(hd, tl):
-		if let o = lhs[hd] {
-			switch o {
-			case let .JSONObject(d) where rhs.path.count > 1:
-				return resolveKeypath(d, rhs: JSONKeypath(tl))
-			default:
-				return o
-			}
-		}
-		return .None
-	}
-}
-

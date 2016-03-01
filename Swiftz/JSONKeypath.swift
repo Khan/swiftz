@@ -30,19 +30,3 @@ public struct JSONKeypath : StringLiteralConvertible {
 		self.path = [value]
 	}
 }
-
-extension JSONKeypath : Monoid {
-	public static var mempty : JSONKeypath {
-		return JSONKeypath([])
-	}
-
-	public func op(other : JSONKeypath) -> JSONKeypath {
-		return JSONKeypath(self.path + other.path)
-	}
-}
-
-extension JSONKeypath : CustomStringConvertible {
-	public var description : String {
-		return self.path.intersperse(".").reduce("", combine: +)
-	}
-}
