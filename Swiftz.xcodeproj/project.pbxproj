@@ -483,6 +483,7 @@
 				TargetAttributes = {
 					84A88F971A71DF7F003D53CF = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 0800;
 					};
 					84A88FA21A71DF7F003D53CF = {
 						CreatedOnToolsVersion = 6.2;
@@ -801,6 +802,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -823,6 +825,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
