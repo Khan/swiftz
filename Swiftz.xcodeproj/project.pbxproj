@@ -489,13 +489,14 @@
 					};
 					84DF751D1B0BD17700C912B0 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0800;
 					};
 					84DF75271B0BD17700C912B0 = {
 						CreatedOnToolsVersion = 6.4;
 					};
 				};
 			};
-			buildConfigurationList = 84A88F921A71DF7F003D53CF /* Build configuration list for PBXProject "Swiftz" */;
+			buildConfigurationList = 84A88F921A71DF7F003D53CF /* Build configuration list for PBXProject "swiftz" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -886,6 +887,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -909,6 +911,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -959,7 +962,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		84A88F921A71DF7F003D53CF /* Build configuration list for PBXProject "Swiftz" */ = {
+		84A88F921A71DF7F003D53CF /* Build configuration list for PBXProject "swiftz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84A88FAC1A71DF7F003D53CF /* Debug */,
